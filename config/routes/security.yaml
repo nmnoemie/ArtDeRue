@@ -1,11 +1,3 @@
-# config/packages/security.yaml
-security:
-    # ...
-
-    firewalls:
-        main:
-            # ...
-            form_login:
-                # "app_login" is the name of the route created previously
-                login_path: app_login
-                check_path: app_login
+_security_logout:
+    resource: security.route_loader.logout
+    type: service
