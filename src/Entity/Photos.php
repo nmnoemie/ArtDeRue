@@ -26,6 +26,14 @@ class Photos
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaire = null;
 
+    #[ORM\ManyToOne(inversedBy: 'photos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Oeuvres $oeuvre = null;
+
+    #[ORM\ManyToOne(inversedBy: 'photos')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Benevoles $benevole = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +83,30 @@ class Photos
     public function setCommentaire(?string $commentaire): static
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getOeuvre(): ?Oeuvres
+    {
+        return $this->oeuvre;
+    }
+
+    public function setOeuvre(?Oeuvres $oeuvre): static
+    {
+        $this->oeuvre = $oeuvre;
+
+        return $this;
+    }
+
+    public function getBenevole(): ?Benevoles
+    {
+        return $this->benevole;
+    }
+
+    public function setBenevole(?Benevoles $benevole): static
+    {
+        $this->benevole = $benevole;
 
         return $this;
     }

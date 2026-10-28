@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArtistesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +27,17 @@ class Artistes
 
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $nationalite = null;
+
+    /**
+     * @var Collection<int, Oeuvres>
+     */
+    #[ORM\ManyToMany(targetEntity: Oeuvres::class, inversedBy: 'Artistes')]
+    private Collection $Oeuvres;
+
+    public function __construct()
+    {
+        $this->Oeuvres = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +88,30 @@ class Artistes
     public function setNationalite(?string $nationalite): static
     {
         $this->nationalite = $nationalite;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Oeuvres>
+     */
+    public function getOeuvres(): Collection
+    {
+        return $this->Oeuvres;
+    }
+
+    public function addOeuvre(Oeuvres $oeuvre): static
+    {
+        if (!$this->Oeuvres->contains($oeuvre)) {
+            $this->Oeuvres->add($oeuvre);
+        }
+
+        return $this;
+    }
+
+    public function removeOeuvre(Oeuvres $oeuvre): static
+    {
+        $this->Oeuvres->removeElement($oeuvre);
 
         return $this;
     }
