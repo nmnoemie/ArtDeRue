@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ photo.oeuvre.titre }}{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_photos_index') }}" class="btn btn-link ps-0">← Retour à la liste</a>
+
+    <div class="row g-4 mt-1">
+        <div class="col-md-6">
+            <img src="{{ asset('uploads/' ~ photo.nomFichier) }}"
+                 class="img-fluid rounded shadow-sm" alt="{{ photo.oeuvre.titre }}">
+        </div>
+
+        <div class="col-md-6">
+            <h1>{{ photo.oeuvre.titre }}</h1>
+            <p class="text-muted">{{ photo.oeuvre.description }}</p>
+
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item"><strong>Lieu :</strong> {{ photo.oeuvre.lieux.nom }}</li>
+                <li class="list-group-item"><strong>Technique :</strong> {{ photo.oeuvre.technique.technique }}</li>
+                <li class="list-group-item"><strong>État de l'œuvre :</strong> {{ photo.etatOeuvre }}</li>
+                <li class="list-group-item"><strong>Photo prise le :</strong> {{ photo.date ? photo.date|date('d/m/Y') : '' }}</li>
+                {% if photo.commentaire %}
+                    <li class="list-group-item"><strong>Commentaire :</strong> {{ photo.commentaire }}</li>
+                {% endif %}
+            </ul>
+
+            <h5>Artiste(s)</h5>
+            {% for artiste in photo.oeuvre.artistes %}
+                <div class="card mb-2">
+                    <div class="card-body py-2">
+                        <strong>{{ artiste.pseudo }}</strong>
+                        {% if artiste.nom %} — {{ artiste.nom }}{% endif %}
+                        {% if artiste.nationalite %}<br><small class="text-muted">{{ artiste.nationalite }}</small>{% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-muted">Artiste inconnu.</p>
+            {% endfor %}
+
+            {% if is_granted('ROLE_BENEVOLE') %}
+                <div class="d-flex gap-2 mt-4">
+                    <a href="{{ path('app_photos_edit', {'id': photo.id}) }}" class="btn btn-primary">Modifier</a>
+                    {{ include('photos/_delete_form.html.twig') }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

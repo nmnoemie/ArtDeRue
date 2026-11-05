@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Benevoles{% endblock %}
+
+{% block body %}
+    <h1>Create new Benevoles</h1>
+
+    {{ include('benevoles/_form.html.twig') }}
+
+    <a href="{{ path('app_benevoles_index') }}">back to list</a>
+{% endblock %}

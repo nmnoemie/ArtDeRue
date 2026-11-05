@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Photos{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Photos des œuvres</h1>
+        {% if is_granted('ROLE_BENEVOLE') %}
+            <a href="{{ path('app_photos_new') }}" class="btn btn-success">Ajouter une photo</a>
+        {% endif %}
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for photo in photos %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ asset('uploads/' ~ photo.nomFichier) }}"
+                         class="card-img-top" alt="{{ photo.oeuvre.titre }}"
+                         style="height: 220px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ photo.oeuvre.titre }}</h5>
+                        <p class="card-text mb-1">
+                            <strong>Artiste(s) :</strong>
+                            {% for artiste in photo.oeuvre.artistes %}
+                                {{ artiste.pseudo }}{% if not loop.last %}, {% endif %}
+                            {% else %}
+                                inconnu
+                            {% endfor %}
+                        </p>
+                        <p class="card-text mb-1"><strong>Lieu :</strong> {{ photo.oeuvre.lieux.nom }}</p>
+                        <p class="card-text mb-1"><strong>Technique :</strong> {{ photo.oeuvre.technique.technique }}</p>
+                        <p class="card-text text-muted small">
+                            Photo du {{ photo.date ? photo.date|date('d/m/Y') : '' }} · {{ photo.etatOeuvre }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{{ path('app_photos_show', {'id': photo.id}) }}" class="btn btn-sm btn-outline-dark">Voir</a>
+                        {% if is_granted('ROLE_BENEVOLE') %}
+                            <a href="{{ path('app_photos_edit', {'id': photo.id}) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-muted">Aucune photo pour le moment.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

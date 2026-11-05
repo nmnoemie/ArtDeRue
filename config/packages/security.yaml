@@ -1,9 +1,40 @@
 security:
-    # ... autres configurations (providers, etc.)
+    role_hierarchy:
+        ROLE_BENEVOLE: ROLE_USER
+
+
+    password_hashers:
+        App\Entity\User:
+            algorithm: auto
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email # ou username, selon le champ choisi dans make:user
     firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
         main:
-            # ... votre configuration de firewall
-            form_login:
-                login_path: app_login
-                check_path: app_login
-                enable_csrf: true
+            lazy: true
+            provider: app_user_provider
+            custom_authenticator: App\Security\AppCustomAuthenticator
+            entry_point: App\Security\AppCustomAuthenticator
+            
+            logout:
+                path: app_logout
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+    
+
+    access_control:
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/photos/new, roles: ROLE_BENEVOLE }
+        - { path: ^/photos/\d+/edit, roles: ROLE_BENEVOLE }
+        - { path: ^/photos, roles: ROLE_USER }
+        - { path: ^/(artistes|lieux|techniques|oeuvres|benevoles), roles: ROLE_BENEVOLE }
