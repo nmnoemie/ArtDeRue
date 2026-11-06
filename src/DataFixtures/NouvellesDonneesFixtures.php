@@ -21,8 +21,6 @@ class NouvellesDonneesFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager): void
     {
-        // --- 1. Création des Lieux ---
-            // --- 1. Création des Lieux ---
         $lieu1 = new Lieux(); 
         $lieu1->setNom('Friche Belle de Mai'); 
         $lieu1->setQuartier('Marseille'); 
@@ -47,28 +45,24 @@ class NouvellesDonneesFixtures extends Fixture implements FixtureGroupInterface
         $lieu4->setGps('45.7719, 4.8278'); // <-- Ajout du GPS
         $manager->persist($lieu4);
 
-        // --- 2. Création des Techniques ---
         $tech1 = new Techniques(); $tech1->setTechnique('Bombe aérosol et acrylique');
         $tech2 = new Techniques(); $tech2->setTechnique('Peinture en aérosol (Noir & Blanc)');
         $tech3 = new Techniques(); $tech3->setTechnique('Graffiti sauvage (Wildstyle)');
         $tech4 = new Techniques(); $tech4->setTechnique('Peinture à l\'huile et aérosol');
         $manager->persist($tech1); $manager->persist($tech2); $manager->persist($tech3); $manager->persist($tech4);
 
-        // --- 3. Création des Artistes ---
         $artiste1 = new Artistes(); $artiste1->setNom('Miss.Tic'); $artiste1->setPseudo('Miss.Tic'); $artiste1->setNationalite('Française');
         $artiste2 = new Artistes(); $artiste2->setNom('JR'); $artiste2->setPseudo('JR'); $artiste2->setNationalite('Français');
         $artiste3 = new Artistes(); $artiste3->setNom('Banksy'); $artiste3->setPseudo('Banksy'); $artiste3->setNationalite('Britannique');
         $artiste4 = new Artistes(); $artiste4->setNom('Seth'); $artiste4->setPseudo('Seth'); $artiste4->setNationalite('Français');
         $manager->persist($artiste1); $manager->persist($artiste2); $manager->persist($artiste3); $manager->persist($artiste4);
 
-        // --- 4. Création des Œuvres ---
         $oeuvre1 = new Oeuvres();
         $oeuvre1->setTitre('La Belle Électrique');
         $oeuvre1->setDate(new \DateTime('2023-03-15'));
         $oeuvre1->setDescription('Portrait stylisé d\'une femme aux cheveux flamboyants.'); // <-- Ajout
         $oeuvre1->setLieux($lieu1);
         $oeuvre1->setTechnique($tech1);
-        // ...
 
         $oeuvre2 = new Oeuvres();
         $oeuvre2->setTitre('Le Regard de la Rue');
@@ -76,7 +70,6 @@ class NouvellesDonneesFixtures extends Fixture implements FixtureGroupInterface
         $oeuvre2->setDescription('Un œil géant hyperréaliste qui observe les passants.'); // <-- Ajout
         $oeuvre2->setLieux($lieu2);
         $oeuvre2->setTechnique($tech2);
-        // ...
 
         $oeuvre3 = new Oeuvres();
         $oeuvre3->setTitre('Explosion Chromatique');
@@ -84,7 +77,6 @@ class NouvellesDonneesFixtures extends Fixture implements FixtureGroupInterface
         $oeuvre3->setDescription('Un mélange de formes géométriques et de couleurs vives.'); // <-- Ajout
         $oeuvre3->setLieux($lieu3);
         $oeuvre3->setTechnique($tech3);
-        // ...
 
         $oeuvre4 = new Oeuvres();
         $oeuvre4->setTitre('Le Sage');
@@ -92,10 +84,8 @@ class NouvellesDonneesFixtures extends Fixture implements FixtureGroupInterface
         $oeuvre4->setDescription('Portrait d\'un homme âgé avec une expression pensive.'); // <-- Ajout
         $oeuvre4->setLieux($lieu4);
         $oeuvre4->setTechnique($tech4);
-        // ...
         $benevole = $manager->getRepository(Benevoles::class)->findOneBy([]); 
         
-        // Si aucun bénévole n'existe, on en crée un pour éviter une erreur
         if (!$benevole) {
             $benevole = new Benevoles();
             $benevole->setNom('Dupont');
@@ -103,7 +93,6 @@ class NouvellesDonneesFixtures extends Fixture implements FixtureGroupInterface
             $manager->persist($benevole);
         }
 
-        // --- 6. Création des Photos ---
         $photo1 = new Photos();
         $photo1->setDate(new \DateTime('2023-03-15'));
         $photo1->setNomFichier('art1.jpg'); 

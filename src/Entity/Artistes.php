@@ -28,9 +28,6 @@ class Artistes
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $nationalite = null;
 
-    /**
-     * @var Collection<int, Oeuvres>
-     */
     #[ORM\ManyToMany(targetEntity: Oeuvres::class, inversedBy: 'Artistes')]
     private Collection $Oeuvres;
 
@@ -92,9 +89,6 @@ class Artistes
         return $this;
     }
 
-    /**
-     * @return Collection<int, Oeuvres>
-     */
     public function getOeuvres(): Collection
     {
         return $this->Oeuvres;

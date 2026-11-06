@@ -42,7 +42,6 @@ class Photos
         mimeTypesMessage: 'Veuillez uploader une image valide (JPG, PNG ou WEBP)'
     )]
     private ?File $imageFile = null;
-    // -----------------------------------
 
     public function getId(): ?int
     {
@@ -121,7 +120,6 @@ class Photos
         return $this;
     }
 
-    // --- GETTER ET SETTER POUR L'UPLOAD ---
     public function getImageFile(): ?File
     {
         return $this->imageFile;

@@ -7,9 +7,6 @@ namespace App\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20261104143552 extends AbstractMigration
 {
     public function getDescription(): string
@@ -19,7 +16,6 @@ final class Version20261104143552 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE artistes (id INT AUTO_INCREMENT NOT NULL, pseudo VARCHAR(30) NOT NULL, nom VARCHAR(30) DEFAULT NULL, bio LONGTEXT DEFAULT NULL, nationalite VARCHAR(30) DEFAULT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE artistes_oeuvres (artistes_id INT NOT NULL, oeuvres_id INT NOT NULL, INDEX IDX_1C7642ED96E1EAF4 (artistes_id), INDEX IDX_1C7642ED4928CE22 (oeuvres_id), PRIMARY KEY (artistes_id, oeuvres_id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE benevoles (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(30) NOT NULL, prenom VARCHAR(30) NOT NULL, email VARCHAR(30) NOT NULL, PRIMARY KEY (id)) DEFAULT CHARACTER SET utf8mb4');
@@ -39,7 +35,6 @@ final class Version20261104143552 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE artistes_oeuvres DROP FOREIGN KEY FK_1C7642ED96E1EAF4');
         $this->addSql('ALTER TABLE artistes_oeuvres DROP FOREIGN KEY FK_1C7642ED4928CE22');
         $this->addSql('ALTER TABLE oeuvres DROP FOREIGN KEY FK_413EEE3EA2C806AC');

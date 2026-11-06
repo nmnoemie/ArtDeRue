@@ -24,9 +24,6 @@ class Benevoles
     #[ORM\Column(length: 30)]
     private ?string $email = null;
 
-    /**
-     * @var Collection<int, Photos>
-     */
     #[ORM\OneToMany(targetEntity: Photos::class, mappedBy: 'benevole')]
     private Collection $photos;
 
@@ -76,9 +73,6 @@ class Benevoles
         return $this;
     }
 
-    /**
-     * @return Collection<int, Photos>
-     */
     public function getPhotos(): Collection
     {
         return $this->photos;
@@ -97,7 +91,6 @@ class Benevoles
     public function removePhoto(Photos $photo): static
     {
         if ($this->photos->removeElement($photo)) {
-            // set the owning side to null (unless already changed)
             if ($photo->getBenevole() === $this) {
                 $photo->setBenevole(null);
             }

@@ -33,7 +33,6 @@ final class OeuvresController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            // 1. Gestion du nouveau lieu
             $nouveauLieuNom = $form->get('nouveauLieu')->getData();
             if ($nouveauLieuNom) {
                 $nouveauLieu = new Lieux();
@@ -42,7 +41,6 @@ final class OeuvresController extends AbstractController
                 $oeuvre->setLieux($nouveauLieu); // Attention: setLieux ou setLieu selon votre entité
             }
 
-            // 2. Gestion de la nouvelle technique
             $nouvelleTechniqueNom = $form->get('nouvelleTechnique')->getData();
             if ($nouvelleTechniqueNom) {
                 $nouvelleTechnique = new Technique(); // <-- CORRECTION: Majuscule à Technique
@@ -51,7 +49,6 @@ final class OeuvresController extends AbstractController
                 $oeuvre->setTechnique($nouvelleTechnique);
             }
 
-            // 3. Enregistrement de l'œuvre
             $entityManager->persist($oeuvre);
             $entityManager->flush();
 

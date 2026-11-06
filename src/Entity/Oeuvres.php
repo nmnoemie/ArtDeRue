@@ -25,9 +25,6 @@ class Oeuvres
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    /**
-     * @var Collection<int, Artistes>
-     */
     #[ORM\ManyToMany(targetEntity: Artistes::class, mappedBy: 'Oeuvres')]
     private Collection $Artistes;
 
@@ -39,9 +36,6 @@ class Oeuvres
     #[ORM\JoinColumn(nullable: false)]
     private ?Techniques $technique = null;
 
-    /**
-     * @var Collection<int, Photos>
-     */
     #[ORM\OneToMany(targetEntity: Photos::class, mappedBy: 'oeuvre')]
     private Collection $photos;
 
@@ -98,9 +92,6 @@ class Oeuvres
         return $this;
     }
 
-    /**
-     * @return Collection<int, Artistes>
-     */
     public function getArtistes(): Collection
     {
         return $this->Artistes;
@@ -149,9 +140,6 @@ class Oeuvres
         return $this;
     }
 
-    /**
-     * @return Collection<int, Photos>
-     */
     public function getPhotos(): Collection
     {
         return $this->photos;
@@ -170,7 +158,6 @@ class Oeuvres
     public function removePhoto(Photos $photo): static
     {
         if ($this->photos->removeElement($photo)) {
-            // set the owning side to null (unless already changed)
             if ($photo->getOeuvre() === $this) {
                 $photo->setOeuvre(null);
             }
@@ -198,12 +185,10 @@ class Oeuvres
 
     public function setRecouvertePar(?self $recouvertePar): static
     {
-        // unset the owning side of the relation if necessary
         if ($recouvertePar === null && $this->recouvertePar !== null) {
             $this->recouvertePar->setRecouvre(null);
         }
 
-        // set the owning side of the relation if necessary
         if ($recouvertePar !== null && $recouvertePar->getRecouvre() !== $this) {
             $recouvertePar->setRecouvre($this);
         }

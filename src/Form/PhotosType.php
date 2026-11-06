@@ -22,35 +22,30 @@ class PhotosType extends AbstractType
             ->add('date')
             ->add('etatOeuvre')
             ->add('commentaire')
-            // Liste déroulante des œuvres existantes
             ->add('oeuvre', EntityType::class, [
                 'class' => Oeuvres::class,
                 'choice_label' => 'titre',
                 'label' => 'Œuvre existante',
                 'required' => false,
             ])
-            // Champ texte pour créer une nouvelle œuvre
             ->add('nouvelleOeuvre', TextType::class, [
                 'mapped' => false,
                 'required' => false,
                 'label' => 'Ou tapez le titre d\'une nouvelle œuvre',
                 'attr' => ['placeholder' => 'Ex: La Nuit étoilée']
             ])
-            // Liste déroulante des bénévoles existants
             ->add('benevole', EntityType::class, [
                 'class' => Benevoles::class,
                 'choice_label' => 'nom',
                 'label' => 'Bénévole existant',
                 'required' => false,
             ])
-            // Champ texte pour créer un nouveau bénévole
             ->add('nouveauBenevole', TextType::class, [
                 'mapped' => false, 
                 'required' => false,
                 'label' => 'Ou tapez le nom d\'un nouveau bénévole',
                 'attr' => ['placeholder' => 'Ex: Martin']
             ])
-            // Champ pour l'image
             ->add('imageFile', FileType::class, [
                 'label' => 'Image (JPG, PNG)',
                 'mapped' => false,
@@ -58,12 +53,10 @@ class PhotosType extends AbstractType
             ])
         ;
 
-        // Événement pour gérer la création à la volée
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             $data = $form->getData(); // L'objet Photos
 
-            // 1. Gestion du nouveau Bénévole
             $nouveauNom = $form->get('nouveauBenevole')->getData();
             if ($nouveauNom) {
                 $benevole = new Benevoles();
@@ -71,13 +64,10 @@ class PhotosType extends AbstractType
                 $data->setBenevole($benevole);
             }
 
-            // 2. Gestion de la nouvelle Œuvre
             $nouveauTitre = $form->get('nouvelleOeuvre')->getData();
             if ($nouveauTitre) {
                 $oeuvre = new Oeuvres();
                 $oeuvre->setTitre($nouveauTitre);
-                // Si votre entité Oeuvres a d'autres champs obligatoires (date...), 
-                // il faudra les définir ici aussi.
                 $data->setOeuvre($oeuvre);
             }
         });

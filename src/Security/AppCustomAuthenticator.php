@@ -48,7 +48,6 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // Redirige vers la liste des œuvres (ou une autre page de votre choix)
         return new RedirectResponse($this->urlGenerator->generate('app_oeuvres_index'));
     }
 

@@ -18,9 +18,6 @@ class Techniques
     #[ORM\Column(length: 255)]
     private ?string $technique = null;
 
-    /**
-     * @var Collection<int, Oeuvres>
-     */
     #[ORM\OneToMany(targetEntity: Oeuvres::class, mappedBy: 'technique')]
     private Collection $oeuvres;
 
@@ -46,9 +43,6 @@ class Techniques
         return $this;
     }
 
-    /**
-     * @return Collection<int, Oeuvres>
-     */
     public function getOeuvres(): Collection
     {
         return $this->oeuvres;
@@ -67,7 +61,6 @@ class Techniques
     public function removeOeuvre(Oeuvres $oeuvre): static
     {
         if ($this->oeuvres->removeElement($oeuvre)) {
-            // set the owning side to null (unless already changed)
             if ($oeuvre->getTechnique() === $this) {
                 $oeuvre->setTechnique(null);
             }

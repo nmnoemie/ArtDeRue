@@ -33,7 +33,6 @@ final class PhotosController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            // --- GESTION DE L'UPLOAD D'IMAGE ---
             $imageFile = $form->get('imageFile')->getData();
             if ($imageFile) {
                 $newFilename = uniqid().'.'.$imageFile->guessExtension();
@@ -43,7 +42,6 @@ final class PhotosController extends AbstractController
                 );
                 $photo->setNomFichier($newFilename);
             }
-            // -----------------------------------
 
             $entityManager->persist($photo);
             $entityManager->flush();
@@ -74,7 +72,6 @@ final class PhotosController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            // --- GESTION DU CHANGEMENT D'IMAGE (optionnel) ---
             $imageFile = $form->get('imageFile')->getData();
             if ($imageFile) {
                 $newFilename = uniqid().'.'.$imageFile->guessExtension();
@@ -84,7 +81,6 @@ final class PhotosController extends AbstractController
                 );
                 $photo->setNomFichier($newFilename);
             }
-            // --------------------------------------------------
 
             $entityManager->flush();
 
