@@ -32,6 +32,19 @@ final class PhotosController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            // --- GESTION DE L'UPLOAD D'IMAGE ---
+            $imageFile = $form->get('imageFile')->getData();
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+                $imageFile->move(
+                    $this->getParameter('kernel.project_dir').'/public/uploads/photos',
+                    $newFilename
+                );
+                $photo->setNomFichier($newFilename);
+            }
+            // -----------------------------------
+
             $entityManager->persist($photo);
             $entityManager->flush();
 
@@ -60,6 +73,19 @@ final class PhotosController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            // --- GESTION DU CHANGEMENT D'IMAGE (optionnel) ---
+            $imageFile = $form->get('imageFile')->getData();
+            if ($imageFile) {
+                $newFilename = uniqid().'.'.$imageFile->guessExtension();
+                $imageFile->move(
+                    $this->getParameter('kernel.project_dir').'/public/uploads/photos',
+                    $newFilename
+                );
+                $photo->setNomFichier($newFilename);
+            }
+            // --------------------------------------------------
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_photos_index', [], Response::HTTP_SEE_OTHER);

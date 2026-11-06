@@ -20,8 +20,11 @@ class ArtistesType extends AbstractType
             ->add('nationalite')
             ->add('Oeuvres', EntityType::class, [
                 'class' => Oeuvres::class,
-                'choice_label' => 'id',
+                'choice_label' => 'titre',
                 'multiple' => true,
+                'expanded' => true,
+                'label' => 'Œuvres associées',
+                'required' => false,
             ])
         ;
     }

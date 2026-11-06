@@ -14,25 +14,38 @@
         {% for photo in photos %}
             <div class="col">
                 <div class="card h-100 shadow-sm">
-                    <img src="{{ asset('uploads/' ~ photo.nomFichier) }}"
-                         class="card-img-top" alt="{{ photo.oeuvre.titre }}"
+                    {# CORRECTION DU CHEMIN ICI : artderue/ au lieu de uploads/ #}
+                    <img src="{{ asset('artderue/' ~ photo.nomFichier) }}"
+                         class="card-img-top" alt="{{ photo.oeuvre ? photo.oeuvre.titre : 'Sans titre' }}"
                          style="height: 220px; object-fit: cover;">
+                    
                     <div class="card-body">
-                        <h5 class="card-title">{{ photo.oeuvre.titre }}</h5>
+                        <h5 class="card-title">{{ photo.oeuvre ? photo.oeuvre.titre : 'Sans titre' }}</h5>
+                        
                         <p class="card-text mb-1">
                             <strong>Artiste(s) :</strong>
-                            {% for artiste in photo.oeuvre.artistes %}
-                                {{ artiste.pseudo }}{% if not loop.last %}, {% endif %}
+                            {% if photo.oeuvre and photo.oeuvre.artistes is not empty %}
+                                {% for artiste in photo.oeuvre.artistes %}
+                                    {{ artiste.pseudo ?: artiste.nom }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
                             {% else %}
-                                inconnu
-                            {% endfor %}
+                                <em>Inconnu</em>
+                            {% endif %}
                         </p>
-                        <p class="card-text mb-1"><strong>Lieu :</strong> {{ photo.oeuvre.lieux.nom }}</p>
-                        <p class="card-text mb-1"><strong>Technique :</strong> {{ photo.oeuvre.technique.technique }}</p>
+                        
+                        <p class="card-text mb-1">
+                            <strong>Lieu :</strong> {{ photo.oeuvre and photo.oeuvre.lieux ? photo.oeuvre.lieux.nom : '—' }}
+                        </p>
+                        
+                        <p class="card-text mb-1">
+                            <strong>Technique :</strong> {{ photo.oeuvre and photo.oeuvre.technique ? photo.oeuvre.technique.technique : '—' }}
+                        </p>
+                        
                         <p class="card-text text-muted small">
-                            Photo du {{ photo.date ? photo.date|date('d/m/Y') : '' }} · {{ photo.etatOeuvre }}
+                            Photo du {{ photo.date ? photo.date|date('d/m/Y') : '—' }} · {{ photo.etatOeuvre ?: 'État inconnu' }}
                         </p>
                     </div>
+                    
                     <div class="card-footer bg-transparent">
                         <a href="{{ path('app_photos_show', {'id': photo.id}) }}" class="btn btn-sm btn-outline-dark">Voir</a>
                         {% if is_granted('ROLE_BENEVOLE') %}
@@ -42,7 +55,9 @@
                 </div>
             </div>
         {% else %}
-            <p class="text-muted">Aucune photo pour le moment.</p>
+            <div class="col-12">
+                <p class="text-muted">Aucune photo pour le moment.</p>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}

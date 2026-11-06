@@ -23,7 +23,7 @@ class Lieux
     #[ORM\Column(length: 20)]
     private ?string $quartier = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[ORM\Column(length: 255)]
     private ?string $GPS = null;
 
     public function getId(): ?int

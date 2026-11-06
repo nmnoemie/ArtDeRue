@@ -15,7 +15,7 @@ class Techniques
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 255)]
     private ?string $technique = null;
 
     /**

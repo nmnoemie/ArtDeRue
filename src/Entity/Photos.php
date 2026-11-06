@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\PhotosRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhotosRepository::class)]
 class Photos
@@ -26,13 +28,21 @@ class Photos
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaire = null;
 
-    #[ORM\ManyToOne(inversedBy: 'photos')]
+    #[ORM\ManyToOne(inversedBy: 'photos' , cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Oeuvres $oeuvre = null;
 
-    #[ORM\ManyToOne(inversedBy: 'photos')]
+    #[ORM\ManyToOne(inversedBy: 'photos', cascade: ['persist'])] // <-- Ajout de cascade: ['persist']
     #[ORM\JoinColumn(nullable: false)]
     private ?Benevoles $benevole = null;
+    
+    #[Assert\File(
+        maxSize: '5M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+        mimeTypesMessage: 'Veuillez uploader une image valide (JPG, PNG ou WEBP)'
+    )]
+    private ?File $imageFile = null;
+    // -----------------------------------
 
     public function getId(): ?int
     {
@@ -108,6 +118,18 @@ class Photos
     {
         $this->benevole = $benevole;
 
+        return $this;
+    }
+
+    // --- GETTER ET SETTER POUR L'UPLOAD ---
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): static
+    {
+        $this->imageFile = $imageFile;
         return $this;
     }
 }
